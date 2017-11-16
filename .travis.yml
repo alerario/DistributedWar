@@ -1,0 +1,12 @@
+services:
+- postgresql
+before_script:
+ - psql -c 'create database dwardb;' -U postgres
+ - psql -U postgres -d dwardb -f script/database/create_tables.sql
+ - psql -U postgres -d dwardb -f script/database/fill_tables.sql
+ - cd source/Dwar
+ - ls
+language: java
+jdk:
+  - oraclejdk8
+script: mvn clean verify -DskipTests=false -DskipITs=false -DskipSTs=false
